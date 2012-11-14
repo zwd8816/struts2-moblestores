@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="gb2312"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    
+	<!-- 设置编码 -->
+	<constant name="struts.i18n.encoding" value="utf-8" /> 
+	<constant name="struts.devMode" value="true" />
+	
+	<package name="bookstores" namespace="/"  extends="struts-default">
+	   <interceptors>
+
+        <!-- 定义权限控制拦截器 -->
+
+        <interceptor name="authority" class="com.moblestores.util.AuthorizationInterceptor"/>
+
+        </interceptors>
+
+       
+
+        <!-- 定义全局处理结果 -->
+
+        <global-results>
+
+        <!-- 逻辑名为login的结果，映射到/login.jsp页面 -->
+
+        <result name="login">/index.jsp</result>
+
+        </global-results>
+	
+    <!-- 用户管理 -->
+    <action name="user_action" class="com.moblestores.action.UserAction">
+       <result name="success">/admin/main.jsp</result>
+       <result name="faile">/admin/faile.jsp</result>
+       <result name="user-list-all">/admin/users/user_list_all.jsp</result>
+       <result name="user-add">/admin/users/user_list_all.jsp</result>
+       <result name="user-update">/admin/users/user_update.jsp</result>
+       
+        <!-- 使用拦截器 -->
+
+            <interceptor-ref name="defaultStack"/>
+
+            <interceptor-ref name="authority"/>
+    </action>
+    
+
+    <!-- 书籍管理 -->
+    <action name="book_action" class="com.moblestores.action.BookAction">
+            <result name="input">/admin/books/book_add.jsp</result>
+            <result name="success">/admin/books/add_ok.jsp</result>
+            <result name="book-list-all">/admin/books/book_list_all.jsp</result>
+    </action>
+    
+    <!-- 页面跳转-->
+	<action name="page_to_action" class="com.moblestores.action.ToolAction">
+	  <result name="index">/index.jsp</result>
+	</action>
+	</package>
+</struts>
